@@ -1,53 +1,98 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Základ</title>
-  <style>
-*{                      
-  margin: 0;          
-  padding: 0;
-}
-#page {text-align: left;width: 800px;height: auto;background-color: gray;margin: 0 auto 0 auto;} 
-#header {height: 120px;background-color: orange;}
-#sidebar {width: 150px; height: 380px;float:left;background-color: green;}
-#content {background-color: lime; margin: 10px;margin-left: 160px;} 
-#footer {background-color: red; height: 120px;}  
-  </style>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Pokus1</title>
+	<style type="text/css">
+	*{margin: 0;padding: 0;}
+	p.a{font:15px Arial, sans-serif;}
+	p.b{font: italic small-caps bold 20px Georgia, serif;}
+	th,td {border: 4px double red;}
+	table{ border: 5px solid yellow;table-layout: fixed;width: 100%;}
+	hr {height: 5px;width: auto;border-color: black; background-color: white;}
+	#page{text-align: center;width: 1000px;height: auto;background-color: #43A047;margin: 0 auto 0 auto;}
+	#header{line-height: 500%; width: auto; height: 100px;background-color: #7B1FA2 ;margin: 10px;}
+	#left-bar{width: 100px;height: 400px;float: left;background-color: #FF5722;margin-left: 10px;margin-right: 10px;}
+	#right-bar{width: 100px;height: 400px;float: right;background-color: #FF5722;margin-left: 10px;margin-right: 10px;}
+	#content{text-align: center; background-color: #1E88E5;margin: 10px; margin-right: 120px;margin-left: 120px;height: auto;min-height: 400px;}
+	#list1{height: auto; width: 100px; float: right; margin: 20px;border: 4px solid black;}
+	#list2{height: auto; width: 100px; float: left; margin: 20px;border: 5px dotted black;}
+	#footer{line-height: 500%; width: auto; height: 100px;background-color: #6D4C41;margin: 10px;}
+	
+
+
+</style>
 </head>
 <body>
-<div id="page">
-<div id="header"><H1>NADPIS</H1></div>
-<div id="sidebar"><H2>BOČNÍ PANEL</H2></div>
-<div id="content">
-  <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-  proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-  proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-  proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
-  <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-  proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-</div>
-<div id="footer">Pata</div>
-</div>
+	<div id="page">
+	<div id="header"><h2>HLAVIČKA</h2></div>
+	<div id="left-bar"><h2>LEVÝ PANEL</h2></div>
+	<div id="right-bar"><h2>PRAVÝ PANEL</h2></div>
+		<div id="content">
+			<h1><em>OBSAH</em></h1>
+			<div id="list1">
+			<ul>
+				<li>věc 1</li>
+				<li>věc 2</li>
+				<li>věc 3</li>	
+			</ul>	
+			</div>
+			<div id="list2">
+			<ol>
+				<li>věc A</li>
+				<li>věc B</li>
+				<li>věc C</li>	
+			</ol>
+			</div>
+			<p class="a"> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+			<hr>
+			<p class="b"> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.	
+			</p>
+			<hr>
+			<br>
+			<img src="https://www.pngitem.com/pimgs/m/451-4510558_roman-ancient-rome-symbols-hd-png-download.png" width="200" height="auto" >
+			<br>
+			<table>
+			  <tr>
+			    <th>Company</th>
+			    <th>Contact</th>
+			    <th>Country</th>
+			  </tr>
+			  <tr>
+			    <td>Alfreds Futterkiste</td>
+			    <td>Maria Anders</td>
+			    <td>Germany</td>
+			  </tr>
+			  <tr>
+			    <td>Island Trading</td>
+			    <td>Helen Bennett</td>
+			    <td>UK</td>
+			  </tr>
+			  <tr>
+			    <td>Magazzini Alimentari Riuniti</td>
+			    <td>Giovanni Rovelli</td>
+			    <td>Italy</td>
+			  </tr>
+			</table>
+
+
+
+		</div>
+
+	<div id="footer"><h2><strong>Nožička</strong></h2></div>
+	</div>
+
 
 </body>
 </html>
-
-
