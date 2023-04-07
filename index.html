@@ -93,17 +93,17 @@
 
 
 
-  
+
   <script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script> 
   <script>
   var programCode = function(processingInstance) {
     with (processingInstance) {
     
     var BodyEl = document.getElementById("body");
-    BodyEl.style.width = screen.width;
-    BodyEl.style.height = screen.height;    
+    BodyEl.style.width = screen.width + "px";
+    BodyEl.style.height = screen.height + "px";    
         
-    var width = screen.width
+    var width = screen.width;
     var height = screen.height;
     size(width, height);
     frameRate(60);
