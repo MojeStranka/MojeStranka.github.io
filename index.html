@@ -23,6 +23,7 @@
 		border: 2px solid black;
 		width: 100%;
 		height: auto;
+        background: skyblue;
 	}
 	#canvas {
 		margin-right: auto;
@@ -45,6 +46,7 @@
 	.button {
 		width: 50%;
 		height: 100%;
+        font-size: 2em;
 	}
 	#levyButton {
 
@@ -90,10 +92,15 @@
 
 
 <script>
+
   var programCode = function(processingInstance) {
     with (processingInstance) {
-    var canvasX = 0.95*screen.width;
+    var canvasX = screen.width;
     var canvasY = 0.75*screen.height/2;
+    if (canvasY < 500) {
+        canvasX = canvasX * 1.5;
+        canvasY = canvasY * 1.5;
+    }
     size(canvasX,canvasY);
     frameRate(60);
         
@@ -118,12 +125,15 @@
             rect(this.x + 20, this.y + 30, 5, 5);
             rect(this.x + 25, this.y + 30, 5, 5);
         };
+
         Postava.prototype.skok = function() {
             this.y -= 1 * 5.5;
         };
+
         Postava.prototype.pad = function() {
             this.y += 1 * 1.5;
         };
+
         Postava.prototype.nabourani = function(prekazka) {
             if( //naraz do vrchni prekazky kolmo
                 ((this.x + 50 === prekazka.x) && (this.y <= prekazka.height))||
@@ -142,11 +152,13 @@
                 window.location.reload();
             }
         };
+
         var Prekazka = function(x, y, height) {
             this.x = x;
             this.y = y;
             this.height = height;
         };
+
         Prekazka.prototype.draw = function() {
             fill(130, 30, 176);
             rect(this.x, this.y, 40, this.height);
@@ -207,6 +219,7 @@
                 prekazka[i].x -= 2;
                 Bob.nabourani(prekazka[i]);
             }
+
             mouseClicked = function() {
                 Count = 10;
             };
@@ -214,14 +227,15 @@
             keyPressed = function() {
                 Count = 10;
             };
+
             if (Count > 0) {
                 Bob.skok();
             }
+
             Count = Count - 1;
             Bob.pad();
             Bob.draw();
         };
-
 
 
     }};
@@ -276,7 +290,7 @@
     var timeout = function() {
                 currentTime = parseFloat(seconds.textContent);
                 seconds.textContent = currentTime - 1;
-                if (seconds.textContent === "-1") {
+                if (seconds.textContent == "-1") {
                     alert('Nestihl jsi odpovědět, konečné score: ' + scoreEl.textContent);
                     window.location.reload();
                 }
@@ -299,9 +313,9 @@
         levyButtonEl.textContent = poleOtazek[0].moznost1;
         pravyButtonEl.textContent = poleOtazek[0].moznost2;
         
+
     var i = 0;  
     var levyButton = function() {
-        
         if (poleOtazek[i].spravna == "1.") {
             otazkaEl.textContent = poleOtazek[i+1].otazka;
             levyButtonEl.textContent = poleOtazek[i+1].moznost1;
