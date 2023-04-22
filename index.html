@@ -8,21 +8,19 @@
 
 	h1 {
         text-align: center;
-        font-family: Banschrift
+        font-family: Banschrift;
+        font-size: 4vh;
  	}
 	#body {
 		margin-left: auto;
 		margin-right: auto;
-		border: 2px solid black;
-		padding: 10px;
 	}
-	#div {
+	.div {
 		margin-right: auto;
 		margin-left: auto;
-		padding: 0px;
 		border: 2px solid black;
 		width: 100%;
-		height: auto;
+		height: 20%;
         background: skyblue;
 	}
 	#canvas {
@@ -31,14 +29,10 @@
 		border: 2px solid black;
 		width: 100%;
 		height: 50%;
-		background-color: skyblue;
 	}
 	#flexbox {
 		display: flex;
-  		flex-wrap: nowrap;
-  		background-color: DodgerBlue;
-  		margin-right: auto;
-		margin-left: auto;
+  		flex-wrap: wrap;
 		border: 2px solid black;
 		width: 100%;
 		height: 10%;
@@ -46,34 +40,73 @@
 	.button {
 		width: 50%;
 		height: 100%;
-        font-size: 2em;
+        font-size: 4vh;
 	}
-	#levyButton {
 
-    }
-    #pravyButton {
 
+
+	@media screen and (height <= 300px) {
+
+        #canvas {
+            position: absolute;
+            float: left;
+            width: 40%;
+            height: 90%;
+            }
+
+        .div {
+            float: right;
+            border: 2px solid black;
+            width: 50%;
+            height: auto;
+            background: skyblue;
+            }
+
+        #flexbox {
+            width: 50%;
+            height: auto;
+        }
+
+        .button {
+            height: auto;
+            width: 50%;
+            font-size: 9.5vh;
+        }
+        
+        h1 {
+            font-size: 9.5vh;
+        }
     }
-    
 	</style>
 </head>
 
 
 <body id="body">
-	<div id="div">
-		<h1>Scóre: <span id="score">0</span></h1>
+	<div class="div">
+		<h1>
+            Scóre: 
+            <span id="score">
+                0
+            </span>
+        </h1>
 	</div>
-	<canvas id="canvas"></canvas>
-	<div id="div">
+	<canvas id="canvas">
+
+    </canvas>
+	<div class="div">
 		<h1 id="otazka">Otazka</h1>
 		<h1>Zbývající čas: <span id="seconds">10</span> vteřin</h1>
 	</div>
-	<div id="flexbox">
+	<div class="div" id="flexbox">
 		<button class="button" id="pravyButton" onclick="pravyButton()">
-			<h1>Odpoved1</h1>
+			<h1>
+                Odpoved1
+            </h1>
 		</button>
 		<button class="button" id="levyButton" onclick="levyButton()">
-			<h1>Odpoved2</h1>
+			<h1>
+                Odpoved2
+            </h1>
 		</button>
 	</div>
 </body>
@@ -81,9 +114,10 @@
 
 <script type="text/javascript">
 	var bodyEl = document.getElementById("body");
-	var divEl = document.getElementById("div");
-	bodyEl.style.width = 0.95*window.innerWidth + "px";
-	bodyEl.style.height = 0.75*window.innerHeight + "px";
+	var divEl = document.getElementsByClassName("div");
+    
+	bodyEl.style.width = 0.9*window.innerWidth + "px";
+	bodyEl.style.height = 0.9*window.innerHeight + "px";
 </script>
 
 
@@ -95,14 +129,21 @@
 
   var programCode = function(processingInstance) {
     with (processingInstance) {
-    var canvasX = screen.width;
-    var canvasY = 0.75*screen.height/2;
-    if (canvasY < 500) {
-        canvasX = canvasX * 1.5;
-        canvasY = canvasY * 1.5;
-    }
+    var canvasX = window.innerWidth;
+    var canvasY = window.innerHeight/2;
+    if (canvasY <= 150) {
+        canvasX = canvasX * 1.125;
+        canvasY = canvasY * 5;
+    } else if (canvasY > 150) {
+        var k = canvasX/canvasY;
+        while (canvasY < 500) {
+            canvasY = canvasY + 30;
+            canvasX = canvasX + 30*k;
+        }
+    } 
+
     size(canvasX,canvasY);
-    frameRate(60);
+    frameRate(50);
         
         var Postava = function(x, y) {
           this.x = x;
