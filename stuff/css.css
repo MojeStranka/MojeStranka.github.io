@@ -1,0 +1,70 @@
+h1 {
+        text-align: center;
+        font-family: Banschrift;
+        font-size: 4vh;
+ 	}
+	#body {
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.div {
+		margin-right: auto;
+		margin-left: auto;
+		border: 2px solid black;
+		width: 100%;
+		height: 20%;
+        background: skyblue;
+	}
+	#canvas {
+		margin-right: auto;
+		margin-left: auto;
+		border: 2px solid black;
+		width: 100%;
+		height: 50%;
+	}
+	#flexbox {
+		display: flex;
+  		flex-wrap: wrap;
+		border: 2px solid black;
+		width: 100%;
+		height: 10%;
+	}
+	.button {
+		width: 50%;
+		height: 100%;
+        font-size: 4vh;
+	}
+
+
+	@media screen and (height <= 400px) {
+
+        #canvas {
+            position: absolute;
+            float: left;
+            width: 40%;
+            height: 90%;
+            }
+
+        .div {
+            float: right;
+            border: 2px solid black;
+            width: 50%;
+            height: auto;
+            background: skyblue;
+            }
+
+        #flexbox {
+            width: 50%;
+            height: auto;
+        }
+
+        .button {
+            height: auto;
+            width: 50%;
+            font-size: 9vh;
+        }
+        
+        h1 {
+            font-size: 9vh;
+        }
+    }
