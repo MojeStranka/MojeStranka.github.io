@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Ročníková práce</title>
+    <link rel="stylesheet" type="text/css"href="stuff/css.css">
+</head>
+<body id="body">
+	<div class="div">
+		<h1>Scóre: <span id="score">0</span></h1>
+	</div>
+	<canvas id="canvas"></canvas>
+	<div class="div">
+		<h1 id="otazka">Otazka</h1>
+		<h1>Zbývající čas: <span id="seconds">10</span> vteřin</h1>
+	</div>
+	<div class="div" id="flexbox">
+		<button class="button" id="leftButton" onclick="leftButton()">
+			<h1>Odpoved1</h1>
+		</button>
+		<button class="button" id="rightButton" onclick="rightButton()">
+			<h1>Odpoved2</h1>
+		</button>
+	</div>
+</body>
+<script language="javascript" type="text/javascript" src="stuff/js_library.js"></script>
+<script language="javascript" type="text/javascript" src="stuff/js_responsivity.js"></script>
+<script language="javascript" type="text/javascript" src="stuff/js_main.js"></script>
+</html>
