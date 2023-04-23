@@ -44,8 +44,7 @@
 	}
 
 
-
-	@media screen and (height <= 300px) {
+	@media screen and (height <= 400px) {
 
         #canvas {
             position: absolute;
@@ -70,11 +69,11 @@
         .button {
             height: auto;
             width: 50%;
-            font-size: 9.5vh;
+            font-size: 9vh;
         }
         
         h1 {
-            font-size: 9.5vh;
+            font-size: 9vh;
         }
     }
 	</style>
@@ -98,12 +97,12 @@
 		<h1>Zbývající čas: <span id="seconds">10</span> vteřin</h1>
 	</div>
 	<div class="div" id="flexbox">
-		<button class="button" id="pravyButton" onclick="pravyButton()">
+		<button class="button" id="levyButton" onclick="levyButton()">
 			<h1>
                 Odpoved1
             </h1>
 		</button>
-		<button class="button" id="levyButton" onclick="levyButton()">
+		<button class="button" id="pravyButton" onclick="pravyButton()">
 			<h1>
                 Odpoved2
             </h1>
@@ -113,9 +112,8 @@
 
 
 <script type="text/javascript">
+    // responzivní interface
 	var bodyEl = document.getElementById("body");
-	var divEl = document.getElementsByClassName("div");
-    
 	bodyEl.style.width = 0.9*window.innerWidth + "px";
 	bodyEl.style.height = 0.9*window.innerHeight + "px";
 </script>
@@ -126,31 +124,34 @@
 
 
 <script>
-
   var programCode = function(processingInstance) {
     with (processingInstance) {
-    var canvasX = window.innerWidth;
-    var canvasY = window.innerHeight/2;
-    if (canvasY <= 150) {
-        canvasX = canvasX * 1.125;
-        canvasY = canvasY * 5;
-    } else if (canvasY > 150) {
-        var k = canvasX/canvasY;
-        while (canvasY < 500) {
-            canvasY = canvasY + 30;
-            canvasX = canvasX + 30*k;
+    // nastavení poměru stran canvasu 
+    var canvasWidth = window.innerWidth;
+    var canvasHeight = window.innerHeight/2;
+    // regulace rozměrů (kvůli hratelnosti)
+    if (canvasHeight <= 200) {
+        canvasWidth = canvasWidth * 1.125;
+        canvasHeight = canvasHeight * 5;
+    } else if (canvasHeight > 150) {
+        var k = canvasWidth/canvasHeight;
+        while (canvasHeight < 500) {
+            canvasHeight = canvasHeight + 30;
+            canvasWidth = canvasWidth + 30*k;
         }
     } 
 
-    size(canvasX,canvasY);
+    size(canvasWidth,canvasHeight);
     frameRate(50);
         
-        var Postava = function(x, y) {
+        // konstruktor nové třídy (postava)
+        var Character = function(x, y) {
           this.x = x;
           this.y = y;
         };
 
-        Postava.prototype.draw = function() {
+        // přidání vlastnosti "draw" 
+        Character.prototype.draw = function() {
             this.y = constrain(this.y, 0, height*0.85 - 50);
             fill(255, 213, 0);
             rect(this.x, this.y, 50, 50);
@@ -167,40 +168,43 @@
             rect(this.x + 25, this.y + 30, 5, 5);
         };
 
-        Postava.prototype.skok = function() {
+        // přidání vlastnosti "jump"
+        Character.prototype.jump = function() {
             this.y -= 1 * 5.5;
         };
 
-        Postava.prototype.pad = function() {
+        // přidání vlastnosti "fall"
+        Character.prototype.fall = function() {
             this.y += 1 * 1.5;
         };
 
-        Postava.prototype.nabourani = function(prekazka) {
-            if( //naraz do vrchni prekazky kolmo
-                ((this.x + 50 === prekazka.x) && (this.y <= prekazka.height))||
-                //naraz do vrchni prekazky
-                ((this.x + 50 >= prekazka.x) && (this.x <= prekazka.x + 40) && 
-                (this.y <= prekazka.height))||
-                //naraz do spodni prekazky kolmo
-                ((this.x + 50 === prekazka.x) && (this.y + 50 >= height*0.85 + prekazka.height))||
-                //naraz do spodni prekazky
-                ((this.x + 50 >= prekazka.x) && (this.x <= prekazka.x + 40) && 
-                (this.y + 50 >= height*0.85 + prekazka.height))) 
+        // přidání vlastnosti "crash"
+        // argument "obstacle" deklarován níže
+        Character.prototype.crash = function(obstacle) {
+            if( // naraz do vrchni prekazky kolmo
+                ((this.x + 50 === obstacle.x) && (this.y <= obstacle.height))||
+                // naraz do vrchni prekazky
+                ((this.x + 50 >= obstacle.x) && (this.x <= obstacle.x + 40) && 
+                (this.y <= obstacle.height))||
+                // naraz do spodni prekazky kolmo
+                ((this.x + 50 === obstacle.x) && (this.y + 50 >= height*0.85 + obstacle.height))||
+                // naraz do spodni prekazky
+                ((this.x + 50 >= obstacle.x) && (this.x <= obstacle.x + 40) && 
+                (this.y + 50 >= height*0.85 + obstacle.height))) 
             {
-                
-                prekazka.y = -2*width;
-                prekazka.height = -2*height;
                 window.location.reload();
             }
         };
 
-        var Prekazka = function(x, y, height) {
+        // konstruktor nové třídy (překážky)
+        var Obstacle = function(x, y, height) {
             this.x = x;
             this.y = y;
             this.height = height;
         };
 
-        Prekazka.prototype.draw = function() {
+        // přidání vlastnosti "draw"
+        Obstacle.prototype.draw = function() {
             fill(130, 30, 176);
             rect(this.x, this.y, 40, this.height);
             if (this.height > 0){
@@ -213,26 +217,36 @@
             }
         };
 
-        var Bob = new Postava(40, 280);
+        // deklarace objektu herni postavy
+        var Bob = new Character(40, 280);
 
-        var travicka = [];
+        // deklarace pole (velikosti) pro trávu
+        var grass = [];
         for (var i = 0; i < (width/20) + 1; i++) {
-            travicka.push(i*20);
+            grass.push(i*20);
         }
         
-        var prekazka = [];
+        // deklarace pole překážek
+        var obstacle = [];
         for (var i = 0; i < 95; i++) {  
+            // nahodna velikost prekazek
             var delka = random(height*0.2, height*0.5);
-            prekazka.push(new Prekazka(i * 150 + 400, 0, delka));
-            prekazka.push(new Prekazka(i * 150 + 400, height*0.85, delka - height*0.5));
+            // horni prekazky
+            obstacle.push(new Obstacle(i * 150 + 400, 0, delka));
+            // dolni prekazky
+            obstacle.push(new Obstacle(i * 150 + 400, height*0.85, delka - height*0.5));
         }
 
+
+    // hlavní kreslící funkce, frekvence 50fps
+
+        // proměnná Count slouží k plynulým pohybým 
         var Count = 0;
         draw = function() {
             
-            //obloha
+            // obloha
             background(227, 254, 255);
-            //mrak
+            // mrak
             fill(255, 255, 255);
             ellipse(200, 100, 50, 50);
             ellipse(235, 100, 50, 50);
@@ -241,40 +255,41 @@
             noStroke();
             rect(206, 82, 88, 36);
             stroke(0, 0, 0);
-            //slunce
+            // slunce
             fill(255, 250, 94);
             ellipse(0, 0, 200, 200);
-            //země
+            // země
             fill(130, 79, 43);
             rect(0, height*0.85, width, height*0.15);
             
-            for (var i = 0; i < travicka.length; i++) {
+            for (var i = 0; i < grass.length; i++) {
                 fill(67, 186, 79);
-                rect(travicka[i], height*0.85, 20, 20);
-                travicka[i] -= 2;
-                if (travicka[i] <= -20) {travicka[i] = width;}
+                rect(grass[i], height*0.85, 20, 20);
+                grass[i] -= 2;
+                if (grass[i] <= -20) {grass[i] = width;}
             }
             
-            for (var i = 0; i < prekazka.length; i++) {
-                prekazka[i].draw();
-                prekazka[i].x -= 2;
-                Bob.nabourani(prekazka[i]);
+            for (var i = 0; i < obstacle.length; i++) {
+                obstacle[i].draw();
+                obstacle[i].x -= 2;
+                Bob.crash(obstacle[i]);
             }
 
+            // zjištění vstupu z myši
             mouseClicked = function() {
                 Count = 10;
             };
-            
+            // zjištění vstupu z klávesnice
             keyPressed = function() {
                 Count = 10;
             };
-
+            // pro plynulý skok
             if (Count > 0) {
-                Bob.skok();
+                Bob.jump();
             }
 
             Count = Count - 1;
-            Bob.pad();
+            Bob.fall();
             Bob.draw();
         };
 
@@ -282,110 +297,115 @@
     }};
     var canvas = document.getElementById("canvas"); 
 
-    var Otazka = function(otazka, moznost1, moznost2, spravna) {
-            this.otazka = otazka;
-            this.moznost1 = moznost1;
-            this.moznost2 = moznost2;
-            this.spravna = spravna;
-        };
 
-    var poleOtazek = [];
-        poleOtazek.push(new Otazka(
-            "Kolik je 2 + 2",
-            "22",
-            "4",
-            "2."
-            )
-        );
-        poleOtazek.push(new Otazka(
-            "Kolik je 3 * 3",
-            "9",
-            "3",
-            "1."
-            )
-        );
-        poleOtazek.push(new Otazka(
-            "Kolik je 2 / 2",
-            "5",
-            "1",
-            "2."
-            )
-        );
-        poleOtazek.push(new Otazka(
-            "Kolik je 5^2",
-            "10",
-            "25",
-            "2."
-            )
-        );
-        poleOtazek.push(new Otazka(
-            "Kolik je 4^0,5",
-            "2",
-            "20",
-            "1."
-            )
-        );
-
+    // deklarace časovače
     var seconds = document.getElementById("seconds");
     var currentTime;
-    var timeout = function() {
+    // funkce časovače při každé implementaci sníží čas o "1"
+    var timeOut = function() {
                 currentTime = parseFloat(seconds.textContent);
                 seconds.textContent = currentTime - 1;
                 if (seconds.textContent == "-1") {
                     alert('Nestihl jsi odpovědět, konečné score: ' + scoreEl.textContent);
                     window.location.reload();
                 }
-            };
-    var secondsTimer = window.setInterval(timeout, 1000);
+            }
+    // metoda pro volání funkce timeOut každých 1000ms
+    var secondsTimer = window.setInterval(timeOut, 1000);
 
+
+    // deklarace skóre (podobné jako časovač)
     var scoreEl = document.getElementById("score");
     var currentScore;
+    // funkce scoreUp při každé implementaci zvýší skóre o "1"
     var scoreUp = function() {
         currentScore = parseFloat(scoreEl.textContent);
         scoreEl.textContent = currentScore + 1;
     };
+    // metoda pro volání funkce scoreUp každých 100ms
     var scoreTimer = window.setInterval(scoreUp, 100);
 
+
+    // deklarace otázek
     var otazkaEl = document.getElementById("otazka");
-    var levyButtonEl = document.getElementById("levyButton");
     var pravyButtonEl = document.getElementById("pravyButton");
+    var levyButtonEl = document.getElementById("levyButton");
+    var spravnyButton;
 
-        otazkaEl.textContent = poleOtazek[0].otazka;
-        levyButtonEl.textContent = poleOtazek[0].moznost1;
-        pravyButtonEl.textContent = poleOtazek[0].moznost2;
-        
+    var generovaniOtazek = function(Button) {
+        // náhodně generované operandy (ineteger)
+        var cislo1 = Math.round(Math.random(1)*30);
+        var cislo2 = Math.round(Math.random(2)*25);
+        // náhodně generovaný chybný faktor
+        var chyba = Math.round(Math.random(2)*6.9);
+        // náhodný výběr otázek
+        var i = Math.round(Math.random(0)*4);
 
-    var i = 0;  
-    var levyButton = function() {
-        if (poleOtazek[i].spravna == "1.") {
-            otazkaEl.textContent = poleOtazek[i+1].otazka;
-            levyButtonEl.textContent = poleOtazek[i+1].moznost1;
-            pravyButtonEl.textContent = poleOtazek[i+1].moznost2;  
-            // resetovani timeoutu
+        // seřazení čísel (pro lehčí výpočty)
+        if (cislo2 > cislo1) {
+            var pom = cislo2;
+            cislo2 = cislo1;
+            cislo1 = pom;
+        };
+
+        // deklarace pole otázek
+        var poleOtazek = [
+            cislo1+" + "+cislo2, 
+            cislo1+" - "+cislo2, 
+            cislo1+" * "+cislo2, 
+            cislo1+" mod "+cislo2, 
+            cislo1+"^2"
+        ];
+
+        // deklarace pole správných odpovědí
+        var spravnaOdpoved = [
+            cislo1+cislo2,
+            cislo1-cislo2, 
+            cislo1*cislo2, 
+            Math.round(cislo1/cislo2), 
+            cislo1*cislo1
+        ];
+
+        // deklarace pole špatných odpovědí
+        var spatnaOdpoved = [
+            cislo1+cislo2+chyba,
+            cislo1-cislo2-chyba,
+            (cislo1*cislo2)-chyba,
+            Math.round(cislo1/cislo2)+chyba,
+            (cislo1*cislo1)+chyba
+        ]; 
+
+        // zjištění zda se vybrala správná odpověď
+        if (Button === spravnyButton) {
             seconds.textContent = "10";
-        }   else{
-            levyButtonEl.textContent = "Spatne";
-            levyButtonEl.style.backgroundColor = "red";
+            spravnyButton = Math.round(Math.random(0)*1);
+            otazkaEl.textContent = poleOtazek[i];
+            if (spravnyButton == 0) {
+                levyButtonEl.textContent = spravnaOdpoved[i];
+                pravyButtonEl.textContent = spatnaOdpoved[i];
+            }
+            if (spravnyButton == 1) {
+                levyButtonEl.textContent = spatnaOdpoved[i];
+                pravyButtonEl.textContent = spravnaOdpoved[i];
+            }
+        } else {
             alert('Špatná odpověď, konečné score: ' + scoreEl.textContent);
             window.location.reload();
         }
-        i = i + 1;
     }
 
+    // "nastartování" generátoru otázek 
+    spravnyButton = 1;
+    generovaniOtazek(1);
+
+    // funkce levého tlačítka (Button = 0)
+    var levyButton = function() {
+        generovaniOtazek(0);
+    }
+
+    // funkce pravého tlačítka (Button = 1)
     var pravyButton = function() {
-        if (poleOtazek[i].spravna == "2.") {
-            otazkaEl.textContent = poleOtazek[i+1].otazka;
-            levyButtonEl.textContent = poleOtazek[i+1].moznost1;
-            pravyButtonEl.textContent = poleOtazek[i+1].moznost2;  
-            // resetovani timeoutu
-            seconds.textContent = "10";
-        }   else{
-            pravyButtonEl.textContent = "Spatne";
-            pravyButtonEl.style.backgroundColor = "red";
-            alert('Špatná odpověď, konečné score: ' + scoreEl.textContent);
-            window.location.reload();
-        }
-        i = i + 1;
+        generovaniOtazek(1);
     }
     
     var processingInstance = new Processing(canvas, programCode); 
