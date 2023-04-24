@@ -155,7 +155,9 @@ var programCode = function(processingInstance) {
                 obstacle[i].draw();
                 // rychlost překážek
                 obstacle[i].x -= 2;
-
+                if (obstacle[i] <= -40) {
+                    obstacle[i] = width;
+                }
                 // volání funkce "Bob.crash"
                 Bob.crash(obstacle[i]);
             }
@@ -219,10 +221,10 @@ var programCode = function(processingInstance) {
 
     var questions = function(selectButton) {
         // náhodně generované operandy (ineteger)
-        var op1 = Math.round(Math.random(1)*30);
-        var op2 = Math.round(Math.random(2)*25);
+        var op1 = Math.round(Math.random() * (30 - 2) + 2);
+        var op2 = Math.round(Math.random() * (30 - 2) + 2);;
         // náhodně generovaný chybný faktor
-        var blunder = Math.round(Math.random(2)*6.9);
+        var blunder = Math.round(Math.random() * (6,9 - 1) + 1);
         // náhodný výběr otázek
         var i = Math.round(Math.random(0)*4);
 
@@ -247,7 +249,7 @@ var programCode = function(processingInstance) {
             op1+op2,
             op1-op2, 
             op1*op2, 
-            Math.round(op1/op2), 
+            Math.floor(op1/op2), 
             op1*op1
         ];
 
