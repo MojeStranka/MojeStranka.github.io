@@ -20,7 +20,8 @@ var programCode = function(processingInstance) {
         frameRate(50);
     };
     var canvasRespon = window.setInterval(canvasR, 10);
-
+    size(canvasWidth,canvasHeight);
+    frameRate(50);
     
         
         // konstruktor nové třídy (postava)
