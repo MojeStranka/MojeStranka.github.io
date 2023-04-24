@@ -2,7 +2,6 @@ var programCode = function(processingInstance) {
     with (processingInstance) {
         
     // nastavení poměru stran canvasu 
-    vwr canvasR() {
     var canvasWidth = window.innerWidth;
     var canvasHeight = window.innerHeight/2;
     // regulace rozměrů (kvůli hratelnosti)
@@ -15,14 +14,10 @@ var programCode = function(processingInstance) {
             canvasHeight = canvasHeight + 30;
             canvasWidth = canvasWidth + 30*k;
         }
-    }         
-        size(canvasWidth,canvasHeight);
-        frameRate(50);
-    };
-    var canvasRespon = window.setInterval(canvasR, 10);
+    } 
+
     size(canvasWidth,canvasHeight);
     frameRate(50);
-    
         
         // konstruktor nové třídy (postava)
         var Character = function(x, y) {
@@ -160,9 +155,7 @@ var programCode = function(processingInstance) {
                 obstacle[i].draw();
                 // rychlost překážek
                 obstacle[i].x -= 2;
-                if (obstacle[i] <= -40) {
-                    obstacle[i] = width;
-                }
+
                 // volání funkce "Bob.crash"
                 Bob.crash(obstacle[i]);
             }
@@ -226,10 +219,10 @@ var programCode = function(processingInstance) {
 
     var questions = function(selectButton) {
         // náhodně generované operandy (ineteger)
-        var op1 = Math.round(Math.random() * (30 - 2) + 2);
-        var op2 = Math.round(Math.random() * (30 - 2) + 2);;
+        var op1 = Math.round(Math.random(1)*30);
+        var op2 = Math.round(Math.random(2)*25);
         // náhodně generovaný chybný faktor
-        var blunder = Math.round(Math.random() * (6,9 - 1) + 1);
+        var blunder = Math.round(Math.random(2)*6.9);
         // náhodný výběr otázek
         var i = Math.round(Math.random(0)*4);
 
@@ -254,7 +247,7 @@ var programCode = function(processingInstance) {
             op1+op2,
             op1-op2, 
             op1*op2, 
-            Math.floor(op1/op2), 
+            Math.round(op1/op2), 
             op1*op1
         ];
 
