@@ -2,6 +2,7 @@ var programCode = function(processingInstance) {
     with (processingInstance) {
         
     // nastavení poměru stran canvasu 
+    vwr canvasR() {
     var canvasWidth = window.innerWidth;
     var canvasHeight = window.innerHeight/2;
     // regulace rozměrů (kvůli hratelnosti)
@@ -14,10 +15,13 @@ var programCode = function(processingInstance) {
             canvasHeight = canvasHeight + 30;
             canvasWidth = canvasWidth + 30*k;
         }
-    } 
+    }         
+        size(canvasWidth,canvasHeight);
+        frameRate(50);
+    };
+    var canvasRespon = window.setInterval(canvasR, 10);
 
-    size(canvasWidth,canvasHeight);
-    frameRate(50);
+    
         
         // konstruktor nové třídy (postava)
         var Character = function(x, y) {
