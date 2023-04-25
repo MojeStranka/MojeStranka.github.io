@@ -156,7 +156,7 @@ var programCode = function(processingInstance) {
                 // rychlost překážek
                 obstacle[i].x -= 2;
                 // přesunutí trávy zpět na začátek
-                if (obstacle[i].x <= -40) {
+                if (obstacle[i].x <= -160) {
                     obstacle[i].x = width;
                 }
                 // volání funkce "Bob.crash"
@@ -250,7 +250,7 @@ var programCode = function(processingInstance) {
             op1+op2,
             op1-op2, 
             op1*op2, 
-            Math.round(op1/op2), 
+            Math.floor(op1/op2), 
             op1*op1
         ];
 
