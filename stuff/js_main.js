@@ -104,7 +104,7 @@ var programCode = function(processingInstance) {
         
         // deklarace pole překážek
         var obstacle = [];
-        for (var i = 0; i < width; i++) {  
+        for (var i = 0; i < width/119; i++) {  
             // nahodna velikost prekazek
             var delka = random(height*0.2, height*0.5);
             // horni prekazky
