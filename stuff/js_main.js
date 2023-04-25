@@ -222,7 +222,7 @@ var programCode = function(processingInstance) {
 
     var questions = function(selectButton) {
         // náhodně generované operandy (ineteger)
-        var op1 = Math.floor(Math.random() * 25) + 2;;
+        var op1 = Math.round(Math.random() * 25) + 2;;
         var op2 = Math.round(Math.random() * 25) + 2;;
         // náhodně generovaný chybný faktor
         var blunder = Math.round(Math.random(2)*6.9);
