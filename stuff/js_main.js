@@ -280,6 +280,12 @@ var programCode = function(processingInstance) {
             alert('Špatná odpověď, konečné score: ' + scoreEl.textContent);
             window.location.reload();
         }
+        console.log(op1);
+        console.log(op2);
+        console.log(blunder);
+        console.log(correctAnswer[i]);
+        console.log(wrongAnswer[i]);
+
     }
 
     // "nastartování" generátoru otázek 
