@@ -45,13 +45,12 @@ var programCode = function(processingInstance) {
 
         // přidání vlastnosti "jump"
         Character.prototype.jump = function() {
-            this.y -= (Math.E)^2;
-            // this.y -=  * 5.5;
+            this.y -= 1 * 5.5;
         };
 
         // přidání vlastnosti "fall"
         Character.prototype.fall = function() {
-            this.y += 1 * 1.5;
+            this.y += 1 * 1.7;
         };
 
         // přidání vlastnosti "crash"
@@ -105,7 +104,7 @@ var programCode = function(processingInstance) {
         
         // deklarace pole překážek
         var obstacle = [];
-        for (var i = 0; i < width/50; i++) {  
+        for (var i = 0; i < width; i++) {  
             // nahodna velikost prekazek
             var delka = random(height*0.2, height*0.5);
             // horni prekazky
@@ -156,7 +155,10 @@ var programCode = function(processingInstance) {
                 obstacle[i].draw();
                 // rychlost překážek
                 obstacle[i].x -= 2;
-
+                // přesunutí trávy zpět na začátek
+                if (obstacle[i].x <= -40) {
+                    obstacle[i].x = width;
+                }
                 // volání funkce "Bob.crash"
                 Bob.crash(obstacle[i]);
             }
