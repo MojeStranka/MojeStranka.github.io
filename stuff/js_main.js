@@ -45,7 +45,8 @@ var programCode = function(processingInstance) {
 
         // přidání vlastnosti "jump"
         Character.prototype.jump = function() {
-            this.y -= 1 * 5.5;
+            this.y -= (Math.E)^2;
+            // this.y -=  * 5.5;
         };
 
         // přidání vlastnosti "fall"
@@ -219,8 +220,8 @@ var programCode = function(processingInstance) {
 
     var questions = function(selectButton) {
         // náhodně generované operandy (ineteger)
-        var op1 = Math.round(Math.random(1)*30);
-        var op2 = Math.round(Math.random(2)*25);
+        var op1 = Math.floor(Math.random() * 25) + 2;;
+        var op2 = Math.round(Math.random() * 25) + 2;;
         // náhodně generovaný chybný faktor
         var blunder = Math.round(Math.random(2)*6.9);
         // náhodný výběr otázek
