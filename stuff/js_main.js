@@ -4,19 +4,22 @@ var programCode = function(processingInstance) {
     // nastavení poměru stran canvasu 
     var canvasWidth = window.innerWidth;
     var canvasHeight = window.innerHeight/2;
-    // regulace rozměrů (kvůli hratelnosti)
+
+    // regulace rozměrů (media querry)
     if (canvasHeight <= 200) {
         canvasWidth = canvasWidth * 0.9;
         canvasHeight = canvasHeight * 4;
-    } else if (canvasHeight > 150) {
+    } 
+    if (canvasHeight > 200) {
         var k = canvasWidth/canvasHeight;
-        while (canvasHeight < 500) {
+        while (canvasHeight < 700) {
             canvasHeight = canvasHeight + 30;
             canvasWidth = canvasWidth + 30*k;
         }
     } 
+    
 
-    size(canvasWidth,canvasHeight);
+    size(canvasWidth, canvasHeight);
     frameRate(50);
         
         // konstruktor nové třídy (postava)
@@ -45,7 +48,7 @@ var programCode = function(processingInstance) {
 
         // přidání vlastnosti "jump"
         Character.prototype.jump = function() {
-            this.y -= 1 * 5.5;
+            this.y -= 1 * 7.2;
         };
 
         // přidání vlastnosti "fall"
@@ -98,19 +101,19 @@ var programCode = function(processingInstance) {
         // deklarace pole (velikosti) pro trávu
         var grass = [];
         for (var i = 0; i < width/19; i++) {
-            // začátek nového bloku trávy je o 20px posunut (= šířka)
+            // začátek nového bloku trávy je o 20px posunut (= šířka bloku)
             grass.push(i*20);
         }
         
         // deklarace pole překážek
         var obstacle = [];
-        for (var i = 0; i < width/119; i++) {  
-            // nahodna velikost prekazek
+        for (var i = 0; i < 1000; i++) {  
+            // náhodna velikost překážek
             var delka = random(height*0.2, height*0.5);
-            // horni prekazky
-            obstacle.push(new Obstacle(i*120 + 400, 0, delka));
-            // dolni prekazky
-            obstacle.push(new Obstacle(i*120 + 400, height*0.85, delka - height*0.5));
+            // horní přakážky
+            obstacle.push(new Obstacle(i*140 + 420, 0, delka));
+            // dolní přakážky
+            obstacle.push(new Obstacle(i*140 + 420, height*0.85, delka - height*0.5));
         }
 
 
@@ -155,12 +158,11 @@ var programCode = function(processingInstance) {
                 obstacle[i].draw();
                 // rychlost překážek
                 obstacle[i].x -= 2;
-                // přesunutí trávy zpět na začátek
-                if (obstacle[i].x <= -160) {
-                    obstacle[i].x = width;
-                }
-                // volání funkce "Bob.crash"
+                
+
+                // volání funkce "Bob.crash"                 
                 Bob.crash(obstacle[i]);
+
             }
 
             // zjištění vstupu z myši
@@ -221,27 +223,34 @@ var programCode = function(processingInstance) {
     var correctButton;
 
     var questions = function(selectButton) {
-        // náhodně generované operandy (ineteger)
-        var op1 = Math.round(Math.random() * 25) + 2;;
-        var op2 = Math.round(Math.random() * 25) + 2;;
-        // náhodně generovaný chybný faktor
-        var blunder = Math.round(Math.random(2)*6.9);
+        
         // náhodný výběr otázek
-        var i = Math.round(Math.random(0)*4);
+        var i = Math.round(Math.random()*4);
 
-        // seřazení čísel (pro lehčí výpočty)
-        if (op2 > op1) {
-            var pom = op2;
-            op2 = op1;
-            op1 = pom;
+        // náhodně generované operandy (ineteger)
+        var op1;
+        var op2;
+        if (i == 0 || i == 1) {
+            op1 = Math.round((Math.random()*30) + 1);
+            op2 = Math.round((Math.random()*25) + 1);
+        } else if (i == 2 || i == 4) {
+            op1 = Math.round((Math.random()*14) + 1);
+            op2 = Math.round((Math.random()*14) + 1);
+        } else if (i == 3) {
+            op2 = Math.round((Math.random()*11) + 1);
+            op1 = op2 * Math.round((Math.random()*10) + 1)
         };
+
+        // náhodně generovaný chybný faktor
+        var blunder = Math.round((Math.random()*6.9) + 3);
+        
 
         // deklarace pole otázek
         var questionArray = [
             op1+" + "+op2, 
             op1+" - "+op2, 
-            op1+" * "+op2, 
-            op1+" mod "+op2, 
+            op1+" × "+op2, 
+            op1+" ÷ "+op2, 
             op1+"^2"
         ];
 
@@ -250,7 +259,7 @@ var programCode = function(processingInstance) {
             op1+op2,
             op1-op2, 
             op1*op2, 
-            Math.floor(op1/op2), 
+            op1/op2, 
             op1*op1
         ];
 
@@ -259,14 +268,15 @@ var programCode = function(processingInstance) {
             op1+op2+blunder,
             op1-op2-blunder,
             (op1*op2)-blunder,
-            Math.round(op1/op2)+blunder,
+            (op1/op2)+blunder,
             (op1*op1)+blunder
         ]; 
 
         // zjištění zda se vybrala správná odpověď
-        if (selectButton === correctButton) {
+        if (selectButton == correctButton) {
             seconds.textContent = "10";
-            correctButton = Math.round(Math.random(0)*1);
+            // přiřazení další otázky
+            correctButton = Math.round(Math.random()*1);
             questionEl.textContent = questionArray[i];
             if (correctButton == 0) {
                 leftButtonEl.textContent = correctAnswer[i];
@@ -277,15 +287,8 @@ var programCode = function(processingInstance) {
                 rightButtonEl.textContent = correctAnswer[i];
             }
         } else {
-            alert('Špatná odpověď, konečné score: ' + scoreEl.textContent);
-            window.location.reload();
+            
         }
-        console.log(op1);
-        console.log(op2);
-        console.log(blunder);
-        console.log(correctAnswer[i]);
-        console.log(wrongAnswer[i]);
-
     }
 
     // "nastartování" generátoru otázek 
@@ -301,5 +304,6 @@ var programCode = function(processingInstance) {
     var rightButton = function() {
         questions(1);
     }
+    var processingInstance = new Processing(canvas, programCode);
     
     var processingInstance = new Processing(canvas, programCode);
