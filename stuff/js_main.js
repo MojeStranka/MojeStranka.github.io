@@ -107,14 +107,13 @@ var programCode = function(processingInstance) {
 
         // náhodna velikost překážek
         var delka = [];
-        for (var i = 0; i < 1000; i++) {
+        for (var i = 0; i < width/133; i++) {
             delka.push(random(height*0.2, height*0.5));
         }
 
         // deklarace pole překážek
         var obstacle = [];
-        for (var i = 0; i < 1000; i++) {  
-            
+        for (var i = 0; i < width/139; i++) {  
             // horní přakážky
             obstacle.push(new Obstacle(i*140 + 420, 0, delka[i]));
             // dolní přakážky
@@ -163,11 +162,11 @@ var programCode = function(processingInstance) {
                 obstacle[i].draw();
                 // rychlost překážek
                 obstacle[i].x -= 2;
-                
-
+                if (obstacle[i].x <= -135) {
+                    obstacle[i].x = width;
+                }
                 // volání funkce "Bob.crash"                 
                 Bob.crash(obstacle[i]);
-
             }
 
             // zjištění vstupu z myši
