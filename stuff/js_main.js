@@ -104,16 +104,21 @@ var programCode = function(processingInstance) {
             // začátek nového bloku trávy je o 20px posunut (= šířka bloku)
             grass.push(i*20);
         }
-        
+
+        // náhodna velikost překážek
+        var delka = [];
+        for (var i = 0; i < 1000; i++) {
+            delka.push(random(height*0.2, height*0.5));
+        }
+
         // deklarace pole překážek
         var obstacle = [];
         for (var i = 0; i < 1000; i++) {  
-            // náhodna velikost překážek
-            var delka = random(height*0.2, height*0.5);
+            
             // horní přakážky
-            obstacle.push(new Obstacle(i*140 + 420, 0, delka));
+            obstacle.push(new Obstacle(i*140 + 420, 0, delka[i]));
             // dolní přakážky
-            obstacle.push(new Obstacle(i*140 + 420, height*0.85, delka - height*0.5));
+            obstacle.push(new Obstacle(i*140 + 420, height*0.85, delka[i] - height*0.5));
         }
 
 
@@ -304,6 +309,4 @@ var programCode = function(processingInstance) {
     var rightButton = function() {
         questions(1);
     }
-    var processingInstance = new Processing(canvas, programCode);
-    
     var processingInstance = new Processing(canvas, programCode);
