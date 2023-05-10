@@ -173,10 +173,16 @@ var programCode = function(processingInstance) {
             mouseClicked = function() {
                 Count = 10;
             };
+
             // zjištění vstupu z klávesnice
             keyPressed = function() {
-                Count = 10;
+                if (key.code == "32")   {Count = 10;}
+                if (keyCode == UP)      {Count = 10;}
+                if (keyCode == LEFT)    {leftButtonEl.click();}
+                if (keyCode == RIGHT)   {rightButtonEl.click();}
             };
+
+            
             // pro plynulý skok
             if (Count > 0) {
                 Bob.jump();
@@ -191,6 +197,10 @@ var programCode = function(processingInstance) {
     }};
     var canvas = document.getElementById("canvas"); 
 
+
+    window.onload = function() {
+        canvas.focus();
+    }
 
     // deklarace časovače
     var seconds = document.getElementById("seconds");
@@ -275,13 +285,14 @@ var programCode = function(processingInstance) {
             (op1/op2)+blunder,
             (op1*op1)+blunder
         ]; 
-
+        console.log(correctAnswer[i]);
         // zjištění zda se vybrala správná odpověď
         if (selectButton == correctButton) {
             seconds.textContent = "10";
             // přiřazení další otázky
             correctButton = Math.round(Math.random()*1);
             questionEl.textContent = questionArray[i];
+            canvas.focus();
             if (correctButton == 0) {
                 leftButtonEl.textContent = correctAnswer[i];
                 rightButtonEl.textContent = wrongAnswer[i];
@@ -291,9 +302,11 @@ var programCode = function(processingInstance) {
                 rightButtonEl.textContent = correctAnswer[i];
             }
         } else {
-            
+            alert("Špatná odpověď");
+            window.location.reload();
         }
     }
+
 
     // "nastartování" generátoru otázek 
     correctButton = 1;
@@ -308,4 +321,5 @@ var programCode = function(processingInstance) {
     var rightButton = function() {
         questions(1);
     }
+    
     var processingInstance = new Processing(canvas, programCode);
